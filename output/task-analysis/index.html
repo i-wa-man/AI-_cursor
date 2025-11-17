@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>タスク分析ダッシュボード</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">日報サマリー</p>
+      <h1>タスク分析ダッシュボード</h1>
+      <p class="sub">outputフォルダのMarkdown日報を集計し、進捗と課題を可視化します。</p>
+    </div>
+    <div class="meta">
+      <span id="reportCount">0件</span>
+      <span id="generatedAt">-</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel filters">
+      <div class="filter-group">
+        <label>
+          期間開始
+          <input type="date" id="startDate" />
+        </label>
+        <label>
+          期間終了
+          <input type="date" id="endDate" />
+        </label>
+        <label>
+          キーワード
+          <input type="search" id="keyword" placeholder="タスク・成果・課題から検索" />
+        </label>
+      </div>
+      <div class="filter-actions">
+        <button id="resetFilters" type="button">フィルタをリセット</button>
+        <p class="hint">※ データ更新は`scripts/parse-daily-reports.mjs`を実行してください。</p>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <p class="label">総タスク</p>
+        <p class="value" id="totalTasks">-</p>
+        <p class="note">チェックリストの合計</p>
+      </article>
+      <article class="stat-card">
+        <p class="label">完了タスク</p>
+        <p class="value" id="doneTasks">-</p>
+        <p class="note">✓ 状態の数</p>
+      </article>
+      <article class="stat-card">
+        <p class="label">未完了タスク</p>
+        <p class="value" id="pendingTasks">-</p>
+        <p class="note">継続が必要</p>
+      </article>
+      <article class="stat-card">
+        <p class="label">達成率</p>
+        <p class="value" id="completionRate">-</p>
+        <p class="note">完了 / 総タスク</p>
+      </article>
+    </section>
+
+    <section class="panel two-column">
+      <div>
+        <h2>タスク一覧</h2>
+        <table id="taskTable">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>区分</th>
+              <th>状態</th>
+              <th>内容</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div>
+        <h2>ハイライト</h2>
+        <div class="highlight">
+          <h3>成果</h3>
+          <ul id="achievementList"></ul>
+        </div>
+        <div class="highlight">
+          <h3>課題・リスク</h3>
+          <ul id="issueList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>タイムライン</h2>
+      <ol id="timeline" class="timeline"></ol>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <p>データソース: <code>output/task-analysis/daily_reports.json</code></p>
+    <p>更新: <code>node scripts/parse-daily-reports.mjs</code></p>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
